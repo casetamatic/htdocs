@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="viewport" content="maximum-scale=1.0, minimum-scale=0.4, width=device-width, user-scalable=yes">
+        <link rel="stylesheet" media="all" href="./include/style/styles.min.css">
+        <script src="./include/js/modernizr.min.js"></script>
+    </head>
+    <body>
+
+        <!-- bHeader -->
+        <header class="bHeader">
+            <span class="eHeader_logo">Casetagram</span>
+            <section class="eHeader_leftButtons">
+                <a href="#" id="button-reset" class="bBtn mReset"><span>Reset</span></a>
+            </section>
+            <section class="eHeader_title">
+                <h1>TITLE OF YOUR CASE</h1>
+                <input type="text" name="case_title" id="case_title" hidden/>
+            </section>
+            <section class="eHeader_rightButtons">
+                <a href="/" id="button-cancel" class="bBtn mCancel"><span>Cancel</span></a>
+                <a href="#" id="button-save" class="bBtn mSave"><span>Save</span></a>
+            </section>
+        </header>
+        <!-- #bHeader -->
+
+        <!-- bContent -->
+        <div class="bContent">
+
+            <!-- bSideMenu -->
+            <aside class="bSideMenu">
+                <ul class="eSideMenu_ul">
+                    <li class="">
+                        <a class="eSideMenu_phoneA" href="#"><span>Device</span><strong>none</strong></a>
+                        <ul class="eSideMenu_subUl device">
+                            <li data-device-select-id="iphone5">iPhone 5</li>
+                            <li data-device-select-id="iphone4">iPhone 4/4S</li>
+                            <li data-device-select-id="samsung-galaxy-s3">Galaxy S III</li>
+                        </ul>
+                    </li>
+                    <li class="">
+                        <a class="eSideMenu_layoutA" href="#"><span>Layout</span><strong>none</strong></a>
+                        <ul class="eSideMenu_subUl layout">
+                            <!--<li data-tpl="brockmann" data-device-type="iphone5">Brockmann</li>-->
+                            <li data-tpl="single" data-device-type="iphone5" hidden>Single</li>
+                            <li data-tpl="single" data-device-type="iphone4" hidden>Single</li>
+                            <li data-tpl="single" data-device-type="samsung-galaxy-s3" hidden>Single</li>
+                        </ul>
+                    </li>
+                    <li class="">
+                        <a class="eSideMenu_caseColorA" href="#"><span>Case Color</span><strong>none</strong></a>
+                        <ul class="eSideMenu_subUl case">
+                            <li data-device-type="iphone5" data-tpl="frosty-charcoal">
+                                Frosty Charcoal
+                                <span class="eSideMenu_icon iphone5_frosty_charcoal">Frosty Charcoal</span>
+                            </li>
+                            <li data-device-type="iphone4" data-tpl="frosty-charcoal">
+                                Frosty Charcoal
+                                <span class="iphone4_frosty_charcoal">Frosty Charcoal</span>
+                            </li>
+                            <li data-device-type="samsung-galaxy-s3" data-tpl="clear">
+                                Clear
+                                <span class="samsung_galaxy_s3_clear">Clear</span>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="" hidden>
+                        <a class="eSideMenu_effectsA" href="#"><span>Effects</span><strong>none</strong></a>
+                        <ul class="eSideMenu_subUl">
+                            <li data-filter="none" data-l="none" data-lstyle="" class="selected"><span>None</span></li>
+                            <li data-filter="grayScale" data-l="grayScale" data-lstyle=""><span>Grayscale</span></li>
+                            <li data-filter="gotham" data-l="gotham" data-lstyle=""><span>Gotham</span></li>
+                            <li data-filter="lomo" data-l="lomo" data-lstyle=""><span>Lomo</span></li>
+                            <li data-filter="sepia" data-l="sepia" data-lstyle=""><span>Sepia</span></li>
+                            <li data-filter="west" data-l="west" data-lstyle=""><span>West</span></li>
+                            <li data-filter="roland" data-l="roland" data-lstyle=""><span>Roland</span></li>
+                            <li data-filter="roma" data-l="roma" data-lstyle=""><span>Roma</span></li>
+                            <li data-filter="georgia" data-l="georgia" data-lstyle=""><span>Georgia</span></li>
+                            <!--<li data-filter="pinhole" data-l="pinhole" data-lstyle="">Pinhole</li>
+                            li data-filter="blackWhite" data-l="blackAndWhite" data-lstyle="">Black and White</li>
+                            <li data-filter="redWhite" data-l="redAndWhite" data-lstyle="">Red and White</li-->
+                        </ul>
+                    </li>
+                </ul>
+            </aside>
+            <!-- #bSideMenu -->
+
+            <!-- bSideMenu -->
+            <div class="bDesignPanel">
+
+                <!--<div id="blk_bg" style="background-color: rgb(0, 0, 0); opacity: 0.7; position: absolute; top: -121px; left: -351px; z-index: 60; width: 1000px; height: 967px; background-position: initial initial; background-repeat: initial initial;"></div>
+                <div id="transform-copy" style="z-index: 65; position: absolute; overflow: visible; width: 282px; height: 560px; top: 0px; left: 0px;">
+                    <img data-id="1703041" data-jquery15107340108586940914="[object Object]" data-draggable="[object Object]" data-thumbnail="/controllers/Mapper.php?img=http%3A%2F%2Fctgimage1.s3.amazonaws.com%2Fctg_i_0g3ktkcqzmsybhgfqlfli6e7td40lma8.jpg&amp;resizeToWidth=150&amp;resizeToHeight=150&amp;r=1" data-low_resolution="/controllers/Mapper.php?img=http%3A%2F%2Fctgimage1.s3.amazonaws.com%2Fctg_i_0g3ktkcqzmsybhgfqlfli6e7td40lma8.jpg&amp;resizeToWidth=400&amp;resizeToHeight=400&amp;r=1" data-low-resolution-thumbnail="/controllers/Mapper.php?img=http%3A%2F%2Fctgimage1.s3.amazonaws.com%2Fctg_i_0g3ktkcqzmsybhgfqlfli6e7td40lma8.jpg&amp;resizeToWidth=400&amp;resizeToHeight=400&amp;r=1" data-standard_resolution="/controllers/Mapper.php?img=http%3A%2F%2Fctgimage1.s3.amazonaws.com%2Fctg_i_0g3ktkcqzmsybhgfqlfli6e7td40lma8.jpg&amp;resizeToWidth=2560&amp;resizeToHeight=2560&amp;r=1" data-url="http://ctgimage1.s3.amazonaws.com/ctg_i_0g3ktkcqzmsybhgfqlfli6e7td40lma8.jpg" class="img-holder ui-draggable" src="/controllers/Mapper.php?img=http%3A%2F%2Fctgimage1.s3.amazonaws.com%2Fctg_i_0g3ktkcqzmsybhgfqlfli6e7td40lma8.jpg&amp;resizeToWidth=2560&amp;resizeToHeight=2560&amp;r=1" style="width: 568.0044446689226px; height: 568.0044446689226px; left: -143px; position: absolute; top: -4px; clip: auto;" data-left="-139" data-scale="1.9858156028368794">
+                    <span class="bad"></span>
+                </div>
+                <div id="blk_mask" style="background-color: rgb(0, 0, 0); opacity: 0.4; position: absolute; display: block; top: -121px; left: -351px; z-index: 70; width: 1000px; height: 967px; background-position: initial initial; background-repeat: initial initial;"></div>
+                <div id="transform-grid" style="z-index: 80; position: absolute; overflow: hidden; width: 282px; height: 560px; top: 0px; left: 0px; border: 1px solid rgb(255, 255, 255); cursor: move; border-top-left-radius: 0px; border-top-right-radius: 0px; border-bottom-right-radius: 0px; border-bottom-left-radius: 0px;" data-tpid="0">
+                    <img data-id="1703041" data-jquery15107340108586940914="[object Object]" data-draggable="[object Object]" data-thumbnail="/controllers/Mapper.php?img=http%3A%2F%2Fctgimage1.s3.amazonaws.com%2Fctg_i_0g3ktkcqzmsybhgfqlfli6e7td40lma8.jpg&amp;resizeToWidth=150&amp;resizeToHeight=150&amp;r=1" data-low_resolution="/controllers/Mapper.php?img=http%3A%2F%2Fctgimage1.s3.amazonaws.com%2Fctg_i_0g3ktkcqzmsybhgfqlfli6e7td40lma8.jpg&amp;resizeToWidth=400&amp;resizeToHeight=400&amp;r=1" data-low-resolution-thumbnail="/controllers/Mapper.php?img=http%3A%2F%2Fctgimage1.s3.amazonaws.com%2Fctg_i_0g3ktkcqzmsybhgfqlfli6e7td40lma8.jpg&amp;resizeToWidth=400&amp;resizeToHeight=400&amp;r=1" data-standard_resolution="/controllers/Mapper.php?img=http%3A%2F%2Fctgimage1.s3.amazonaws.com%2Fctg_i_0g3ktkcqzmsybhgfqlfli6e7td40lma8.jpg&amp;resizeToWidth=2560&amp;resizeToHeight=2560&amp;r=1" data-url="http://ctgimage1.s3.amazonaws.com/ctg_i_0g3ktkcqzmsybhgfqlfli6e7td40lma8.jpg" class="img-holder ui-draggable" src="/controllers/Mapper.php?img=http%3A%2F%2Fctgimage1.s3.amazonaws.com%2Fctg_i_0g3ktkcqzmsybhgfqlfli6e7td40lma8.jpg&amp;resizeToWidth=2560&amp;resizeToHeight=2560&amp;r=1" style="width: 568.0044446689226px; height: 568.0044446689226px; left: -143px; position: absolute; top: -4px; clip: auto;" data-left="-139" data-scale="1.9858156028368794" data-width="380" data-height="380">
+                    <span class="bad"></span>
+                </div>
+                <div id="transform-tool" style="z-index: 75; position: absolute; display: block; border: 1px dashed rgb(255, 255, 255); width: 583px; height: 583px; top: -12px; left: -151px; cursor: default;">
+                    <div class="lt" style="position: absolute; width: 15px; height: 15px; background-color: rgb(255, 255, 255); border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; box-shadow: rgb(0, 0, 0) 0px 0px 2px 2px; cursor: move; background-image: url(http://www.casetagram.com/img/ui/move.png); left: -8px; top: -8px; background-position: 50% 50%; background-repeat: no-repeat no-repeat;"></div>
+                    <div class="rt" style="position: absolute; width: 15px; height: 15px; background-color: rgb(255, 255, 255); border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; box-shadow: rgb(0, 0, 0) 0px 0px 2px 2px; cursor: ne-resize; background-image: url(http://www.casetagram.com/img/ui/resize.png); right: -8px; top: -8px; background-position: 50% 50%; background-repeat: no-repeat no-repeat;"></div>
+                    <div class="lb" style="position: absolute; width: 15px; height: 15px; background-color: rgb(255, 255, 255); border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; box-shadow: rgb(0, 0, 0) 0px 0px 2px 2px; left: -8px; bottom: -8px; cursor: pointer; background-image: url(http://www.casetagram.com/img/ui/bin.png); background-position: 50% 50%; background-repeat: no-repeat no-repeat;"></div>
+                    <div class="rb" style="position: absolute; width: 15px; height: 15px; background-color: rgb(255, 255, 255); border-top-left-radius: 2px; border-top-right-radius: 2px; border-bottom-right-radius: 2px; border-bottom-left-radius: 2px; box-shadow: rgb(0, 0, 0) 0px 0px 2px 2px; right: -8px; bottom: -8px; cursor: pointer; background-image: url(http://www.casetagram.com/img/ui/tick.png); background-position: 50% 50%; background-repeat: no-repeat no-repeat;"></div>
+                </div>
+
+                <div id="alert-quality" style="z-index: 100; position: absolute; width: 400px; left: -30px; top: -85px; color: rgb(255, 255, 255);"><img src="/img/ui/bad.png" style="vertical-align:middle; margin:5px 10px 5px 0; float:left">
+                    This photo is 224% below the recommended resolution. Print quality may be reduced.
+                </div>-->
+
+                <!--<div id="low-res">Low-res warning</div>
+                <div id="med-res">Med-res warning</div>-->
+                <div>
+                    <canvas class="eDesignPanel_overlay" width="" height=""></canvas>
+                    <canvas class="eDesignPanel_preview" width="" height=""></canvas>
+                    <canvas class="eDesignPanel_bg" width="" height=""></canvas>
+                    <canvas class="eDesignPanel_mask" width="" height=""></canvas>
+                    <div class="eDesignPanel_template" data-tpl="">
+                        <div class="eDesignPanel_templateWrap">
+                            <div class="design-template" data-tpl="iphone5-single"><div id="canvas-loader"></div>
+                                <div class="placeholder grabbable single-grid" data-tpid="0" style="top:0px; left:0px; z-index:40"></div> <!-- top = 125 + ((240-270)/2) = 110 -->
+                                <div class="normal-grid grid-border-top grid-border-left grid-border-bottom grid-border-right" style="top:0; left:0; width:282px; height:560px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- #bSideMenu -->
+
+        </div>
+        <!-- #bContent -->
+
+        <!-- bStartPanel -->
+        <div class="bStartPanel" hidden>
+            <!--<h1>Import photos from your social network</h1>
+            <span class="">Instagram</span>
+            <span class="">Facebook</span>-->
+            <span class="eStartPanel_upload">Upload</span>
+            <!--<span class="">Stamps</span>-->
+            <h2 class="eStartPanel_hintDevice">Select your device + layout</h2>
+            <h2 class="eStartPanel_">drag n drop to select photo</h2>
+        </div>
+        <!-- #bStartPanel -->
+
+        <!-- bFotos -->
+        <div class="bFotos">
+            <div class="eFotos_wrap">
+                <div class="eFotos_panel">
+                    <span class="">Upload</span>
+                </div>
+                <div class="eFoto_prev"><span>&lt;</span></div>
+                <div class="eFoto_next"><span>&gt;</span></div>
+                <div class="eFoto_slider">
+                    <iframe src="about:blank" name="client_proxy" id="client_proxy"></iframe>
+                    <form method="post" action="./file_upload.php" target="client_proxy" enctype="multipart/form-data" id="photo-upload-form">
+                        <input type="file" name="fileUploader" id="fileUploader">
+                        <input type="hidden" id="fileUploadFn" name="fn" value="uploadFile">
+                        <input type="hidden" id="ajax" name="ajax" value="Y">
+                        <input type="hidden" id="uploadType" name="uploadType" value="I">
+                    </form>
+                    <label class="eFoto_sliderWrap" for="fileUploader">
+                        <span></span>
+                    </label>
+
+                    <span style="display: none; opacity: 1;" id="img-0">
+                        <img class="user-picture grabbable" draggable="true" data-draggable="true" data-thumbnail="150" data-low_resolution="400" data-low-resolution-thumbnail="400" data-standard_resolution="2560" data-url="" data-id="1665069" src="">
+                        <span id="delete-0" class="btn-del-photo" data-id="1665069">x</span>
+                    </span>
+
+                </div>
+            </div>
+        </div>
+        <!-- #bFotos -->
+
+        <!-- bPopup -->
+        <section class="bPopup" hidden>
+            <div class="ePopup_wrap">
+                <div class="ePopup_box">
+                    <a href="#close" class="ePopup_linkClose">x</a>
+
+                    <a href="#" class="ePopup_link_a"></a>
+
+                </div>
+            </div>
+        </section>
+        <!-- #bPopup -->
+
+        <!-- bOverlay mUpload-->
+        <section class="bOverlay mUpload" hidden>
+            <div class="eOverlay_progress">
+                <div></div>
+                <p class="eOverlay_title">
+                    <img src="./include/img/loading-large-black.gif" alt=""/>
+                </p>
+            </div>
+        </section>
+        <!-- #bOverlay mUpload-->
+
+        <!-- bOverlay mSaving-->
+        <section class="bOverlay mSaving" hidden>
+            <div class="eOverlay_progress">
+                <img src="./include/img/loading-large-black.gif" alt=""/>
+            </div>
+        </section>
+        <!-- #bOverlay mSaving-->
+
+        <!-- hidden element's work -->
+        <div id="hidden-elements" hidden>
+
+        </div>
+        <!-- #hidden element's work -->
+
+        <script src="./include/js/jquery.min.js"></script>
+        <script src="./include/js/underscore.min.js"></script>
+        <script src="./include/js/jquery-ui.min.js"></script>
+        <script src="./include/js/backbone.min.js"></script>
+        <script src="./include/js/app.js"></script>
+
+    </body>
+</html>
