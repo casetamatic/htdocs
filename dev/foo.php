@@ -2,6 +2,8 @@
 session_start();
 ini_set('display_errors',1);
 error_reporting(E_ALL);
+$host = $_SERVER['SERVER_NAME'];//"localhost";
+$editor_folder = "editor_dev";
 
 //данные из редактора//
 $save_arr = array (
@@ -10,12 +12,12 @@ $save_arr = array (
 			'user_id' => 1, //получаем в результате авторизации/регистрации в сайте
 			'imgs' => array (
 							'iPhone 5' => array (
-												'print_img' => 	"http://casetamatic.ru/editor_dev/imgs/design/iphone5_9481_print.png", 
-												'design_img' => "http://casetamatic.ru/editor_dev/imgs/design/iphone5_9481.png",			
+												'print_img' => 	"http://".$host."/".$editor_folder."/imgs/design/iphone5_9481_print.png", 
+												'design_img' => "http://".$host."/".$editor_folder."/imgs/design/iphone5_9481.png",			
 												),
 							'iPhone 4/4S' => array (
-												'print_img' => 	"http://casetamatic.ru/editor_dev/imgs/design/iphone5_9481_print.png", 
-												'design_img' => "http://casetamatic.ru/editor_dev/imgs/design/iphone5_9481.png",			
+												'print_img' => 	"http://".$host."/".$editor_folder."/imgs/design/iphone5_9481_print.png", 
+												'design_img' => "http://".$host."/".$editor_folder."/imgs/design/iphone5_9481.png",			
 												),										
 							),
 			);
@@ -28,28 +30,6 @@ session_write_close();
 
 
 //начало программы 
-//скрипт для сохранения дизайна в друпал-сайте
-define('DRUPAL_ROOT', getcwd());
-//$_SERVER['REMOTE_ADDR'] = "localhost"; // Necessary if running from command line
-require_once DRUPAL_ROOT . '/includes/bootstrap.inc';
-require_once DRUPAL_ROOT . '/includes/file.inc'; //для работы с файлами
-drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
-define('DRUPAL_TMP_DIR', variable_get('file_directory_temp', '/tmp')); //определить адрес временной папки друпала. если не определена - временная папка сервера
-define('CASE_IMG_DIR','case_img'); //название папки для изображений	
-define('CASE_PROD_TYPE',"case_prod_type"); //тип commerce product в Drupal сайте для чехлов
-define('PRICE',1990);
-//адреса картинок с цветом для каждой модели
-//название модели и цвет в точности как в поле Body термина таксономии
-$color_imgs = array (
-					'iPhone 5' => array (
-									'white' => "sites/default/files/case_color/iphone_5_case_color_frosty_white_m_side.png",
-									'black' => "sites/default/files/case_color/iphone_5_case_color_frosty_charcoal_m_side.png",
-									),
-					'iPhone 4/4S' => array (
-									'white' => "sites/default/files/case_color/iphone4_case_color_white_m_side.png",
-									'black' => "sites/default/files/case_color/iphone4_case_color_frosty_charcoal_m_side.png",
-									),
-						);
 
 //определение функций
 //копирование файлов с сервера редактора во временную папку Drupal
@@ -80,7 +60,7 @@ function save_img_tmp($img_url){
 	}
 //конец копирования файлов	
 
-//создание commerce product и запись id созданных продуктов в массив $save_arr['product_ids']
+//создание commerce product и запись id созданных продуктов в массив
 function create_product_cases($save_arr){
 		//массив для хранения цены и валюты в формате Drupal Commerce 7
 		$form_state = array (
@@ -101,9 +81,10 @@ function create_product_cases($save_arr){
 
 		//создание продукта для каждой модели и цвета
 		foreach($save_arr['imgs'] as $model => $model_imgs) {
-			//для каждого из цветов модели создаем товар c картинкой дизайна, картинкой этого цвета и картинкой для печати
+			//для каждого из цветов модели создаем товар c картинками: дизайна, для печати и цвета чехла
 			foreach ($model_imgs['color_imgs'] as $color => $color_img) {
-								$product_imgs[0]= $model_imgs['design_img']; //эта картинка будет выводиться на странице карточки товара основной
+				//Картинка с дизайном. эта картинка будет выводиться на странице карточки товара основной
+				$product_imgs[0]= $model_imgs['design_img']; 
 				$product_imgs[1]= $color_img;//картинка с цветом модели
 				//создаем commerce_product
 				echo "debug: ";
@@ -113,11 +94,11 @@ function create_product_cases($save_arr){
 
 				$form = array ();
 				$form[ '#parents' ] = array ();
-				$user_id = user_load_by_mail($save_arr["email"])->uid;
+
 				// Generate a new product object
 				$new_product = commerce_product_new (CASE_PROD_TYPE);
 
-				//записываем термин таксономии устройство из переменной $model
+				//записываем в продукт ID термина таксономии из словаря "устройство"
 				$vocabulary=taxonomy_vocabulary_machine_name_load("device");
 				$terms = taxonomy_get_tree($vocabulary->vid);
 				foreach($terms as $term) {
@@ -127,7 +108,7 @@ function create_product_cases($save_arr){
 				}
 				//устройство
 
-				//записываемо термин таксономии цвет из переменно $color
+				//записываем в продукт ID термина таксономии из словаря "цвет"
 				$vocabulary=taxonomy_vocabulary_machine_name_load("case_colors");
 				$terms = taxonomy_get_tree($vocabulary->vid);
 				foreach($terms as $term) {
@@ -143,8 +124,12 @@ function create_product_cases($save_arr){
 				//цвет
 
 				$new_product->status 			= 1;
+				/*
+				$user_id = user_load_by_mail($save_arr["email"])->uid;
+				*/
+				$user_id = $save_arr["user_id"];
 				$new_product->uid 				= $user_id;	
-				$new_product->sku 				= $save_arr["title"]."-".$model."-".$color."-".rand(0,10000);
+				$new_product->sku 				= $save_arr["title"]."-".$model."-".$color."-".$user_id ."-".rand(0,100000);
 				$new_product->title 			= $save_arr["title"]." ".$model." ".$name;
 
 				echo "title : ".$new_product->title;
@@ -170,7 +155,7 @@ function create_product_cases($save_arr){
 				}
 				//конец неведомой
 
-				//поле img_field с множеством картинок
+				//сохраняем в папку с картинками пользователя и записываем в поле с картинкой дизайна и картинкой цвета чехла
 				foreach ($product_imgs as $filepath) {
 					// Create a File object
 					$file_path = drupal_realpath($filepath); 
@@ -187,14 +172,14 @@ function create_product_cases($save_arr){
 					file_prepare_directory($case_img_user_dir_path, FILE_CREATE_DIRECTORY); //создать папку для изображений пользователя
 					//сохранение файла в папку пользователя
 					$file = file_copy($file,'public://'.CASE_IMG_DIR."/".$user_id); // Save the file to the root of the files directory. You can specify a subdirectory, for example, 'public://images' 
-					//запись в поле картинки ссылки на файд
+					//запись в поле картинки ссылки на файл
 					$new_product->field_case_image[LANGUAGE_NONE][] = (array)$file; 
 					}
-				//конец поля с картинками	
+				//конец поля с дизайном и цветом чехла
 
-				//поле img_field с картинкой для печати
+				//сохраняем в папку с картинками пользователя и записываем в продукт картинку для печати
 				// Create a File object
-				$file_path = drupal_realpath($model_imgs['design_img']); 
+				$file_path = drupal_realpath($model_imgs['print_img']); 
 				$file = (object) array(
 					  'uid' => $user_id, //
 					  'uri' => $file_path, //полный адрес файла во временной папке
@@ -209,19 +194,43 @@ function create_product_cases($save_arr){
 				//сохранение файла в папку пользователя
 				$file = file_copy($file,'public://'.CASE_IMG_DIR."/".$user_id); // Save the file to the root of the files directory. You can specify a subdirectory, for example, 'public://images' 
 				//запись в поле картинки ссылки на файд
-				$new_product->field_case_print_image[LANGUAGE_NONE][] = (array)$file;
+				$new_product->field_print_image[LANGUAGE_NONE][] = (array)$file;
 				//конец поля с картинкой для печати	
 
 				// Notify field widgets to save their field data
 				field_attach_submit ( 'commerce_product' , $new_product , $form , $form_state );
 
 				commerce_product_save ( $new_product );
-				$save_arr['product_ids'][] = $new_product->product_id;
+				$product_ids[] = $new_product->product_id;
 			}
 		}
-	return $save_arr;
+	return $product_ids;
 	}	
 //конец функции создание Commerce Product
+
+//скрипт для сохранения дизайна в друпал-сайте
+//определение перменных и констант	
+define('DRUPAL_ROOT', getcwd());
+//$_SERVER['REMOTE_ADDR'] = "localhost"; // Necessary if running from command line
+require_once DRUPAL_ROOT . '/includes/bootstrap.inc'; //подключение Drupal API
+require_once DRUPAL_ROOT . '/includes/file.inc'; //для работы с файлами
+drupal_bootstrap(DRUPAL_BOOTSTRAP_FULL);
+define('DRUPAL_TMP_DIR', variable_get('file_directory_temp', '/tmp')); //определить адрес временной папки друпала. если не определена - временная папка сервера
+define('CASE_IMG_DIR','case_img'); //название папки для изображений	
+define('CASE_PROD_TYPE',"case_prod_type"); //тип commerce product в Drupal сайте для чехлов
+define('PRICE',1990);
+//адреса картинок с цветом для каждой модели
+//название модели и цвет в точности как в поле Body термина таксономии
+$color_imgs = array (
+					'iPhone 5' => array (
+									'white' => "sites/default/files/case_color/iphone_5_case_color_frosty_white_m_side.png",
+									'black' => "sites/default/files/case_color/iphone_5_case_color_frosty_charcoal_m_side.png",
+									),
+					'iPhone 4/4S' => array (
+									'white' => "sites/default/files/case_color/iphone4_case_color_white_m_side.png",
+									'black' => "sites/default/files/case_color/iphone4_case_color_frosty_charcoal_m_side.png",
+									),
+						);
 	
 //получение данных из сессии
 if (isset($_SESSION['save_arr']))
@@ -237,7 +246,7 @@ unset($_SESSION['save_arr']);
 foreach ($save_arr['imgs'] as $save_arr_model => $model_imgs){
 	foreach($color_imgs as $color_model => $color_imgs_arr){
 		if  ($save_arr_model == $color_model) {
-			$save_arr['web_imgs'][$save_arr_model]['color_imgs'] = $color_imgs_arr;
+			$save_arr['imgs'][$save_arr_model]['color_imgs'] = $color_imgs_arr;
 			//print_r($save_arr['web_imgs'][$save_arr_model]); echo "<br/>";
 			break;
 			}
@@ -249,9 +258,10 @@ foreach ($save_arr['imgs'] as $save_arr_model => $model_imgs){
 foreach ($save_arr['imgs'] as $save_arr_model => $model_imgs){
 	$save_arr['imgs'][$save_arr_model]['design_img'] = save_img_tmp($model_imgs['design_img']);
 	$save_arr['imgs'][$save_arr_model]['print_img'] = save_img_tmp($model_imgs['print_img']);
-	foreach ($model_imgs['color_imgs'] as $color => $color_url) {
+	/*foreach ($model_imgs['color_imgs'] as $color => $color_url) {
 		$save_arr['imgs'][$save_arr_model]['color_imgs'][$color] = save_img_tmp($color_url);
 	}
+	*/
 }
 //конец скачивания файла в временную папку
 
@@ -269,13 +279,18 @@ $node = new stdClass();
 $node->title = $save_arr["title"]; //заголовок ноды 
 $node->type = 'case_display';  //тип материала ноды
 $node->language ='ru'; //код языка ноды
+/*
 global $user;
 $user = user_load_by_mail($save_arr["email"]); //находим юзера по email и создаем объект
-$node->uid = $user->uid; //ID пользователя ноды //либо получаем при авторизации сам id
-	
+$node->uid = $user->uid; //ID пользователя ноды 
+*/
+$node->uid = $save_arr["user_id"]; //полученный при авторизации id Drupal пользователя
+
 //создание commerce products для каждого сочетания модели-цвета
-create_product_cases($save_arr);
-foreach($save_arr['product_ids'] as $product_id){
+$product_ids = create_product_cases($save_arr);
+
+//запись в поле reference filed id созданных продуктов
+foreach($product_ids as $product_id){
 	$node->field_case_product[LANGUAGE_NONE][]['product_id'] = $product_id;
 }
 

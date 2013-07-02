@@ -16,29 +16,11 @@ define('IMP_PHP_PATH', BASE_PATH.'include/php/');
 define('IMP_UPLOAD_PATH', BASE_PATH.'imgs/upload/');
 define('IMP_DESIGN_PATH', BASE_PATH.'imgs/design/');
 // --------------------------- Функция создания страницы
-function create_page($img_arr, $name, $author_email){
+function create_page($json){
     //url сервиса. Должен быть изменен при переносе сервиса в продакшн
-    $create_page_script = "http://casetamatic.ru/dev/cr_case32.php";
-	/*
-	var_dump($img_arr);
-	echo "<br/>";
-	var_dump($name);
-	echo "<br/>";
-	var_dump($author_email);
-	echo "<br/>";
-    */
-	/*
-	//кодирование параметров в base64
-    $imgs64 		= base64_encode(implode(",",$img_arr));
-    $author_email64 = base64_encode($author_email);
-    $name64 		= base64_encode($name);
-
-    //session_start();
-    unset($_SESSION['imgs'],$_SESSION['name'],$_SESSION['author_email']);
-    $_SESSION['imgs'] = $imgs64;
-    $_SESSION['author_email'] = $author_email64;
-    $_SESSION['name'] = $name64;
-    //session_write_close();
+    $host = $_SERVER['SERVER_NAME'];//"localhost";
+    $site_folder = "dev";
+    $create_page_script = "http://".$host."/".$site_folder."/cr_case33.php?json=".base64_encode($json);
 
     //вызов сервиса и получение ответа
     $ch = curl_init($create_page_script);
@@ -48,10 +30,8 @@ function create_page($img_arr, $name, $author_email){
     curl_setopt($ch, CURLOPT_BINARYTRANSFER,1);
     $rawdata = curl_exec($ch); //ответ сервиса
     curl_close ($ch);
-    unset($img_arr, $name, $author_email);
-    */
-	$rawdata = "text";
-	return $rawdata;
+
+    return $rawdata;
 }
 // --------------------------- Функция
 function image_placeholder( $placeholder, $img ){
@@ -203,25 +183,50 @@ if( $_SERVER['HTTP_X_REQUESTED_WITH'] == 'XMLHttpRequest'){
         require_once IMP_PHP_PATH.'/WideImage/WideImage.php';
         //
         $img_arr = array();
-        $name = 'Nikolay Tester';
-        //$author_email = 'testing@gmail.com';
-		$author_email = 'atanikov@gmail.com';
+
         //
         foreach( $_POST['placeholders'] as $placeholder ){
             foreach( $_SESSION['IMGS_UPLOAD'] as $img ){
                 if( $img['id'] == $placeholder['id'] ){
                     $img_arr[] = $img['img_path_2560'];
-                    //print_r( $img );
-                    //print_r( $placeholder );
                     $img_arr[] = image_placeholder( $placeholder, $img );
                 }
             }
         }
         //
 		
-        $created_page_url = create_page($img_arr, $name, $author_email);
-        unset($img_arr, $name, $author_email);
-        //
-        echo '{"save": "'. $created_page_url .'"}';
+        $host = $_SERVER['SERVER_NAME'];//"localhost";
+        $editor_folder = "editor_dev";
+
+        //данные из редактора//
+        $save_arr = array (
+                    'title' => $_POST['title'],//"Cool man",
+                    'email' => "atanikov@gmail.com",
+                    'user_id' => 1, //получаем в результате авторизации/регистрации в сайте
+                    'imgs' => array (
+                                    //'iPhone 5' => array (
+                                    //                    'print_img' =>  "http://".$host."/".$editor_folder.ltrim($img_arr[1],".")."_print.png", 
+                                    //                    'design_img' => "http://".$host."/".$editor_folder.ltrim($img_arr[1],".").".png",         
+                                    //                   ),
+                                    'iPhone 4/4S' => array (
+                                                        'print_img' =>  "http://".$host."/".$editor_folder.ltrim($img_arr[1],".")."_print.png",
+                                                        'design_img' => "http://".$host."/".$editor_folder.ltrim($img_arr[1],".").".png",       
+                                                        ),                                      
+                                    ),
+                    );
+                
+       
+        //unset($_SESSION['save_arr']);
+        //$_SESSION['save_arr'] = json_encode($save_arr);
+        $json = json_encode($save_arr);
+        session_write_close();
+        //конец данных из редактора
+
+        $created_page_url = create_page($json);
+
+        echo '{"save": "'.$created_page_url.'"}';
+       // echo ;
+
+        //echo '"}';
     }
 }
